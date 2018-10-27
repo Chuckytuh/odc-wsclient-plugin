@@ -1,0 +1,17 @@
+{
+  "name": "com.outsystems.odc.wsclient.plugin",
+  "version": "1.0.0",
+  "description": "Simple WebSocket Client plugin to showcase advanced plugin integrations with the OutSystems platform for OutSystems Developer Conference 2018.",
+  "cordova": {
+    "id": "com.outsystems.odc.wsclient.plugin",
+    "platforms": ["android"]
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "João Gonçalves <joao.goncalves@outsystems.com>",
+  "contributors": [
+    "Bruno Grácio <bruno.gracio@outsystems.com>"
+  ],
+  "license": "ISC"
+}
