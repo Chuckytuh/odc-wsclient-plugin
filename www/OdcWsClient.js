@@ -5,7 +5,7 @@ function Semaphore() {};
 Semaphore.prototype.onColorChanged = function (color) {
     console.log("[Debug] onColorChanged:", color);
 };
-
+var semaphore;
 exports.setSemaphore = function (semaphore) {
     this.semaphore = semaphore;
 };
