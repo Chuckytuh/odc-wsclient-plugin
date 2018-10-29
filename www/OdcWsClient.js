@@ -11,17 +11,17 @@ Semaphore.prototype.onConnectionClosed = function (result) {
 };
 
 var semaphore;
-exports.setSemaphore = function (semaphore) {
-    this.semaphore = semaphore;
+exports.setSemaphore = function (newSemaphore) {
+    semaphore = newSemaphore;
 };
 
 module.exports.Semaphore = Semaphore;
 
 module.exports.openConnection = function (ip, port, success, error) {
     console.log("[Debug] openConnection", ip, port);
-    if (this.semaphore === undefined) {
+    if (semaphore === undefined) {
         console.error("[Debug] Semaphore not set! Please call setSemaphore first.");
-        error("Semaphore not set! Please call setSemaphore first.");
+        error({"type": "onError", "message": "Semaphore not set! Please call setSemaphore first."});
         return;
     }
 
@@ -32,15 +32,11 @@ module.exports.openConnection = function (ip, port, success, error) {
         }
     
         if (result.type === "onColorChanged") {
-            this.semaphore.onColorChanged(result.color);
-            return;
-        }
-    
-        if (result.type === "onOpen") {
+            semaphore.onColorChanged(result.color);
+        } else if (result.type === "onOpen") {
             success(result);
-        }
-        if(result.type === "onClose") {
-            this.semaphore.onConnectionClosed(result);
+        } else if(result.type === "onClose") {
+            semaphore.onConnectionClosed(result);
         } else {
             error(result);
         }

@@ -40,7 +40,16 @@ public class OdcWsClient extends CordovaPlugin {
 
     private void openConnection(final CallbackContext callbackContext, String ip, String port) {
         if (isAlreadyHandlingConnection.get()) {
-            callbackContext.error("Already attempting to connect, try again later.");
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("type", "onError");
+                jsonObject.put("error", "Already attempting to connect, try again later.");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            PluginResult result = new PluginResult(PluginResult.Status.ERROR, jsonObject);
+            callbackContext.sendPluginResult(result);
+            return;
         }
 
         isAlreadyHandlingConnection.set(true);
