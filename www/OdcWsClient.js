@@ -5,6 +5,11 @@ function Semaphore() {};
 Semaphore.prototype.onColorChanged = function (color) {
     console.log("[Debug] onColorChanged:", color);
 };
+
+Semaphore.prototype.onConnectionClosed = function (result) {
+    console.log("[Debug] onConnectionClosed:", result);
+};
+
 var semaphore;
 exports.setSemaphore = function (semaphore) {
     this.semaphore = semaphore;
@@ -13,23 +18,29 @@ exports.setSemaphore = function (semaphore) {
 module.exports.Semaphore = Semaphore;
 
 module.exports.openConnection = function (ip, port, success, error) {
+    console.log("[Debug] openConnection", ip, port);
     if (this.semaphore === undefined) {
+        console.error("[Debug] Semaphore not set! Please call setSemaphore first.");
         error("Semaphore not set! Please call setSemaphore first.");
         return;
     }
-    // {"type": "onOpen"}
+
     var innerSuccess = function (result) {
+        console.log("[Debug] innerSuccess", result);
         if (result === undefined) {
             return;
         }
-
+    
         if (result.type === "onColorChanged") {
             this.semaphore.onColorChanged(result.color);
             return;
         }
-
-        if (result.type === "onOpen" || result.type === "onClose") {
+    
+        if (result.type === "onOpen") {
             success(result);
+        }
+        if(result.type === "onClose") {
+            this.semaphore.onConnectionClosed(result);
         } else {
             error(result);
         }
