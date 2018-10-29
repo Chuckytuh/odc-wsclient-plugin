@@ -24,7 +24,7 @@ module.exports.openConnection = function (ip, port, success, error) {
         }
 
         if (result.type === "onColorChanged") {
-            sem.onColorChanged(result.color);
+            this.semaphore.onColorChanged(result.color);
             return;
         }
 
