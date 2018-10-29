@@ -31,7 +31,7 @@ module.exports.openConnection = function (ip, port, success, error) {
         if (result.type === "onOpen" || result.type === "onClose") {
             success(result);
         } else {
-            success(result);
+            error(result);
         }
     }
 
